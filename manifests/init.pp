@@ -25,22 +25,25 @@
 # @author Zach
 #
 class oath (
-  #  Boolean                         $oath                      = simplib::lookup('simp_options::oath', { 'default_value'           => false }),
-  Boolean                         $pam                        = simplib::lookup('simp_options::pam', { 'default_value'           => true }),
-  Boolean                         $pam_oath                   = false
-  Optional[Hash]                  $oath_users                 = { 'defaults' => { 'token_type' => 'HOTP/T30/6', 'pin' => '-' }, 'root' => { 'secret_key' => '000001' }, 'simp' => { 'secret_key' => '000001' }, 'test' => { 'secret_key' => '000001' } }
+  Boolean                         $oath                       = simplib::lookup('simp_options::oath', { 'default_value' => false }),
+  Boolean                         $pam                        = simplib::lookup('simp_options::pam', { 'default_value' => true }),
+  Optional[Hash]                  $oath_users                 = undef
 ) { 
-
-include '::oath::install'
-Class[ '::oath::install' ]
-
-
-if $pam {
-  simplib::assert_metadata($module_name)
   
-  include '::oath::pam_oath_install'
-  include '::oath::config'
-
-  Class[ '::oath::pam_oath_install' ]
-  -> Class[ '::oath::config' ]
+  tag 'testing_oath'
+  include '::oath::install'
+  
+  
+  notify{"The value for oath is: ${oath}": }
+  notify{"The value for pam is: ${pam}": }
+  
+  if ($pam == true and $oath == true){
+    simplib::assert_metadata($module_name)
+    
+    include '::oath::pam_oath_install'
+    include '::oath::config'
+  
+    Class[ '::oath::pam_oath_install' ]
+    -> Class[ '::oath::config' ]
+  }
 }

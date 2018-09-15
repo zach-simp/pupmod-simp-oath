@@ -2,7 +2,7 @@
 #
 # This class is called from oath for install.
 #
-class oath::install {
+class oath::pam_oath_install {
   assert_private()
   package { 'liboath': ensure  => $::oath::package_ensure }
   package { 'pam_oath': ensure => $::oath::package_ensure }
