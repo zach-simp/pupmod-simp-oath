@@ -1,0 +1,16 @@
+---
+oath::oath_users:
+  defaults:
+    token_type:
+      - 'HOTP/T30/6'
+    pin:            
+      - '-'
+  root:
+    secret_key:
+      - '000001'
+  simp:
+    secret_key:
+      - '000001'
+  tst0_usr:
+    secret_key:
+      - '000001'
