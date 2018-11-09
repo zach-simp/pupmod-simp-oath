@@ -1,5 +1,3 @@
-**FIXME**: Ensure the badges are correct and complete, then remove this message!
-
 [![License](https://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/73/badge)](https://bestpractices.coreinfrastructure.org/projects/73)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/simp/oath.svg)](https://forge.puppetlabs.com/simp/oath)
@@ -11,12 +9,10 @@
 1. [Description](#description)
 2. [Setup - The basics of getting started with oath](#setup)
     * [What oath affects](#what-oath-affects)
-    * [Setup requirements](#setup-requirements)
     * [Beginning with oath](#beginning-with-oath)
 3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+4. [Limitations - OS compatibility, etc.](#limitations)
+5. [Development - Guide for contributing to the module](#development)
     * [Acceptance Tests - Beaker env variables](#acceptance-tests)
 
 ## Description
@@ -36,8 +32,6 @@ compliance-management framework built on Puppet.
 
 If you find any issues, they may be submitted to our [bug
 tracker](https://simp-project.atlassian.net/).
-
-**FIXME:** Ensure the *This is a SIMP module* section is correct and complete, then remove this message!
 
 This module is optimally designed for use within a larger SIMP ecosystem, but
 it can be used independently:
