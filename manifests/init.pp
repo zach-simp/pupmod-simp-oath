@@ -36,7 +36,7 @@ Class[ '::oath::install' ]
 
 
 if $pam {
-  assert_metadata($module_name)
+  simplib::assert_metadata($module_name)
   
   include '::oath::pam_oath_install'
   include '::oath::config'

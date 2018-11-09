@@ -14,10 +14,10 @@ describe 'oath' do
   end
 
   context 'supported operating systems' do
-    on_supported_os.each do |os, facts|
+    on_supported_os.each do |os, os_facts|
       context "on #{os}" do
         let(:facts) do
-          facts
+          os_facts
         end
 
         context "oath class without any parameters" do
@@ -37,17 +37,6 @@ describe 'oath' do
           it { is_expected.to contain_class('oath::config::firewall').that_comes_before('Class[oath::service]') }
           it { is_expected.to create_iptables__listen__tcp_stateful('allow_oath_tcp_connections').with_dports(9999)
           }
-        end
-
-        context "oath class with selinux enabled" do
-          let(:params) {{
-            :enable_selinux => true
-          }}
-
-          ###it_behaves_like "a structured module"
-          it { is_expected.to contain_class('oath::config::selinux') }
-          it { is_expected.to contain_class('oath::config::selinux').that_comes_before('Class[oath::service]') }
-          it { is_expected.to create_notify('FIXME: selinux') }
         end
 
         context "oath class with auditing enabled" do
@@ -78,11 +67,13 @@ describe 'oath' do
   context 'unsupported operating system' do
     describe 'oath class without any parameters on Solaris/Nexenta' do
       let(:facts) {{
-        :osfamily        => 'Solaris',
-        :operatingsystem => 'Nexenta'
+        :os => {
+          :family => 'Solaris',
+          :name   => 'Nexenta'
+        }
       }}
 
-      it { expect { is_expected.to contain_package('oath') }.to raise_error(Puppet::Error, /Nexenta not supported/) }
+      it { expect { is_expected.to contain_package('oath').to raise_error(/OS 'Nexenta' is not supported/) } }
     end
   end
 end

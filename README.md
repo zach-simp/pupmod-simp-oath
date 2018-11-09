@@ -21,18 +21,12 @@
 
 ## Description
 
-**FIXME:** Ensure the *Description* section is correct and complete, then remove this message!
+By default, this module will only install oathtool, a command line utility for
+generating one-time passwords. 
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS and Puppet version compatability, and any other
-information users will need to quickly assess the module's viability within
-their environment.
-
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
+Optionally, this module will install the pam_oath and liboath packages from epel
+and configure them. In this case, this module will manage the configurtion for
+these packages, including users, keys and exclusions.
 
 ### This is a SIMP module
 
@@ -60,57 +54,46 @@ it can be used independently:
 
 ### What oath affects
 
-**FIXME:** Ensure the *What oath affects* section is correct and complete, then remove this message!
+If configured to install pam_oath, will install the following packages
+ 
+ * `pam_oath`
+    Will add `/usr/lib64/security/pam_oath.so`
+ * `liboath`
+ * `pam` (A dependency of pam_oath)
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
 
-If there's more that they should know about, though, this is the place to
-mention:
+Will manage files in `/etc/liboath` 
 
- * A list of files, packages, services, or operations that the module will
-   alter, impact, or execute.
- * Dependencies that your module automatically installs.
- * Warnings or other important notices.
+**WARNING:** While this module will not edit the pam stack, it will manage the
+users and keys _required_ for `pam_oath.so` module function. If the pam stack is
+modified to utilize this module, only users in `/etc/liboath/users.oath` or
+those who fall under an exclude will be able to authenticate.
 
-### Setup Requirements **OPTIONAL**
-
-**FIXME:** Ensure the *Setup Requirements* section is correct and complete, then remove this message!
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
 
 ### Beginning with oath
 
-**FIXME:** Ensure the *Beginning with oath* section is correct and complete, then remove this message!
-
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
+```puppet
+include 'oath'
+```
 
 ## Usage
 
-**FIXME:** Ensure the *Usage* section is correct and complete, then remove this message!
+```puppet
+include 'oath'
+```
+For anything greater than simple installation of oathtool, either
+`simp_options::oath` needs to be set to `true` or `oath::pam_oath` needs to be
+overriden to true.
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
-
-## Reference
-
-**FIXME:** Ensure the *Reference* section is correct and complete, then remove this message!  If there is pre-generated YARD documentation for this module, ensure the text links to it and remove references to inline documentation.
-
-Please refer to the inline documentation within each source file, or to the
-module's generated YARD documentation for reference material.
+A default list of users for which totp keys are configured is defined in
+`data/common.yaml` for the module. More details about this can be found in the
+documentation of `manifests/config.pp`. This can be modified in place or
+overriden in puppet or hiera. 
 
 ## Limitations
 
-**FIXME:** Ensure the *Limitations* section is correct and complete, then remove this message!
+Currently, while the pam_oath package supports HOTP as well as TOTP, this module
+only supports TOTP configuration. 
 
 SIMP Puppet modules are generally intended for use on Red Hat Enterprise Linux
 and compatible distributions, such as CentOS. Please see the
@@ -119,25 +102,8 @@ supported operating systems, Puppet versions, and module dependencies.
 
 ## Development
 
-**FIXME:** Ensure the *Development* section is correct and complete, then remove this message!
-
 Please read our [Contribution Guide](http://simp-doc.readthedocs.io/en/stable/contributors_guide/index.html).
 
 ### Acceptance tests
-
-This module includes [Beaker](https://github.com/puppetlabs/beaker) acceptance
-tests using the SIMP [Beaker Helpers](https://github.com/simp/rubygem-simp-beaker-helpers).
-By default the tests use [Vagrant](https://www.vagrantup.com/) with
-[VirtualBox](https://www.virtualbox.org) as a back-end; Vagrant and VirtualBox
-must both be installed to run these tests without modification. To execute the
-tests run the following:
-
-```shell
-bundle install
-bundle exec rake beaker:suites
-```
-
-**FIXME:** Ensure the *Acceptance tests* section is correct and complete, including any module-specific instructions, and remove this message!
-
-Please refer to the [SIMP Beaker Helpers documentation](https://github.com/simp/rubygem-simp-beaker-helpers/blob/master/README.md)
-for more information.
+As use of this module by itself should not affect the operation of a system,
+this module contains only spec tests.
