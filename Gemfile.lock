@@ -28,7 +28,7 @@ GEM
     beaker-docker (0.4.0)
       docker-api
       stringify-hash (~> 0.0.0)
-    beaker-hostgenerator (1.1.19)
+    beaker-hostgenerator (1.1.20)
       deep_merge (~> 1.0)
       stringify-hash (~> 0.0.0)
     beaker-pe (2.0.5)
@@ -51,7 +51,7 @@ GEM
       rspec (~> 3.0)
       serverspec (~> 2)
       specinfra (~> 2)
-    beaker-vagrant (0.5.0)
+    beaker-vagrant (0.6.0)
       stringify-hash (~> 0.0.0)
     beaker-vmpooler (1.3.0)
       stringify-hash (~> 0.0.0)
@@ -93,15 +93,15 @@ GEM
     json (1.8.6)
     json-schema (2.8.1)
       addressable (>= 2.4)
-    json_pure (1.8.6)
     locale (2.1.2)
     log4r (1.1.10)
     metaclass (0.0.4)
     metadata-json-lint (2.2.0)
       json-schema (~> 2.8)
       spdx-licenses (~> 1.0)
-    method_source (0.9.1)
+    method_source (0.9.2)
     mime-types (2.99.3)
+    mini_portile2 (2.3.0)
     minitar (0.7)
     minitest (5.11.3)
     mocha (1.7.0)
@@ -113,18 +113,20 @@ GEM
     net-ssh (4.2.0)
     net-telnet (0.1.1)
     netrc (0.11.0)
+    nokogiri (1.8.5)
+      mini_portile2 (~> 2.3.0)
     oga (2.15)
       ast
       ruby-ll (~> 2.1)
     open_uri_redirections (0.2.1)
     pager (1.0.1)
     parallel (1.12.1)
-    parallel_tests (2.24.0)
+    parallel_tests (2.27.0)
       parallel
     parser (2.5.3.0)
       ast (~> 2.4.0)
     powerpack (0.1.2)
-    pry (0.12.0)
+    pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     pry-byebug (3.4.3)
@@ -134,10 +136,12 @@ GEM
       pry (~> 0.11)
       yard (~> 0.9.11)
     public_suffix (3.0.3)
-    puppet (4.8.2)
-      facter (> 2.0, < 4)
-      hiera (>= 2.0, < 4)
-      json_pure (~> 1.8)
+    puppet (5.5.8)
+      facter (> 2.0.1, < 4)
+      fast_gettext (~> 1.1.2)
+      hiera (>= 3.2.1, < 4)
+      locale (~> 2.1)
+      multi_json (~> 1.10)
     puppet-blacksmith (3.4.0)
       puppet (>= 2.7.16)
       rest-client (~> 1.8.0)
@@ -219,7 +223,7 @@ GEM
       rspec-its
       specinfra (~> 2.72)
     sfl (2.3)
-    simp-beaker-helpers (1.12.1)
+    simp-beaker-helpers (1.13.0)
       beaker (~> 4.0)
       beaker-docker (~> 0.3)
       beaker-puppet (~> 1.0)
@@ -228,6 +232,7 @@ GEM
       beaker-vagrant (~> 0.5)
       highline (~> 1.6)
       net-telnet (~> 0.1.1)
+      nokogiri (~> 1.8)
       rubocop (~> 0.57.2)
     simp-rake-helpers (5.6.2)
       bundler (~> 1.14)
@@ -254,7 +259,7 @@ GEM
       sfl
     stringify-hash (0.0.2)
     text (1.3.1)
-    thor (0.20.0)
+    thor (0.20.3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
@@ -271,7 +276,7 @@ DEPENDENCIES
   metadata-json-lint
   pry
   pry-doc
-  puppet (~> 4.8.0)
+  puppet (~> 5.5)
   puppet-lint-empty_string-check
   puppet-lint-trailing_comma-check
   puppet-strings
@@ -279,9 +284,9 @@ DEPENDENCIES
   rake
   rspec
   rspec-puppet
-  simp-beaker-helpers (>= 1.10.7, < 2)
-  simp-rake-helpers (>= 5.2, < 6.0)
-  simp-rspec-puppet-facts (~> 2.0)
+  simp-beaker-helpers (~> 1.12)
+  simp-rake-helpers (~> 5.6)
+  simp-rspec-puppet-facts (~> 2.2)
 
 BUNDLED WITH
    1.16.5

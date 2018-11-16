@@ -25,17 +25,13 @@
 # @author Zach
 #
 class oath (
-  Boolean                         $oath                       = simplib::lookup('simp_options::oath', { 'default_value' => false }),
-  Boolean                         $pam                        = simplib::lookup('simp_options::pam', { 'default_value' => true }),
+  Boolean                         $oath                       = simplib::lookup('simp_options::oath', { 'default_value'           => false }),
+  Boolean                         $pam                        = simplib::lookup('simp_options::pam', { 'default_value'            => true }),
+  Simplib::PackageEnsure          $package_ensure             = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present'}),
   Optional[Hash]                  $oath_users                 = undef
 ) { 
-  
   tag 'testing_oath'
   include '::oath::install'
-  
-  
-  notify{"The value for oath is: ${oath}": }
-  notify{"The value for pam is: ${pam}": }
   
   if ($pam == true and $oath == true){
     simplib::assert_metadata($module_name)

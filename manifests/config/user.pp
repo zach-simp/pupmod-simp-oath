@@ -1,21 +1,21 @@
 define oath::config::user (
-  Array[String]                                      $users,
-  Array[String]                                      $token_type,
-  Array[Variant[Enum['-','+'], Integer[0,99999999]]] $pin,
-  Array[String]                                      $secret_key
+  Array[String]                                                                         $user,
+  Array[Pattern[/^HOTP(\/?(T1[0-1][0-9]\/|T120\/|T[1-9][0-9]\/)?(10|[4-9])?)(\s+)?$/]]  $token_type,
+  Array[Variant[Enum['-','+'], Integer[0,99999999]]]                                    $pin,
+  Array[Pattern[/^(..)+(\s+)?$/]]                                                       $secret_key
 ) {
   include '::oath::config'
   $_separator = '_'
-  $_name = regsubst($name, '/', '_')
-  $_token_type = $token_type[0]
-  $_pin = $pin[0]
-  $_secret_key = $secret_key[0]
-  $_users = join($users, $_separator)
+  $_name = strip(regsubst($name, '/', '_'))
+  $_token_type = strip($token_type[0])
+  $_pin = strip($pin[0])
+  $_secret_key = strip($secret_key[0])
+  $_user = strip(join($user, $_separator))
 
-  $_content = "${_token_type}\t${_users}\t${_pin}\t${_secret_key}\n"
+  $_content = "${_token_type}\t${_user}\t${_pin}\t${_secret_key}\n"
 
   concat::fragment { "oath_user_${_name}":
-    target  => '/etc/liboath/users.oath',
+    target  => '/etc/liboath/user.oath',
     content => $_content
   }
 }

@@ -5,12 +5,43 @@ describe 'oath' do
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to create_class('oath') }
     it { is_expected.to contain_class('oath') }
-    it { is_expected.to contain_class('oath::install').that_comes_before('Class[oath::config]') }
-    it { is_expected.to contain_class('oath::config') }
-    it { is_expected.to contain_class('oath::service').that_subscribes_to('Class[oath::config]') }
+    it { is_expected.to contain_class('oath::install') }
+    it { is_expected.to contain_package('oathtool') }
+  end
 
-    it { is_expected.to contain_service('oath') }
-    it { is_expected.to contain_package('oath').with_ensure('present') }
+  shared_examples_for "an oath-enabled module" do
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.to create_class('oath') }
+    it { is_expected.to contain_class('oath') }
+    it { is_expected.to contain_class('oath::install') }
+    it { is_expected.to contain_package('oathtool') }
+    it { is_expected.to contain_class('oath::pam_oath_install').that_comes_before('Class[oath::config]') }
+    it { is_expected.to contain_class('oath::config') }
+    it { is_expected.to contain_package('liboath') }
+    it { is_expected.to contain_package('pam_oath') }
+    it { is_expected.to contain_file('/etc/liboath').with({
+      'ensure'  => 'directory',
+      'owner'   => 'root',
+      'group'   => 'root',
+      'seluser' => 'system_u',
+      'seltype' => 'var_auth_t',
+    })}
+    it { is_expected.to contain_file('/etc/liboath/exclude_users.oath').with({
+      'ensure'  => 'file',
+      'owner'   => 'root',
+      'group'   => 'root',
+      'mode'    => '0644',
+      'seluser' => 'system_u',
+      'seltype' => 'var_auth_t',
+    })}
+    it { is_expected.to contain_file('/etc/liboath/exclude_groups.oath').with({
+      'ensure'  => 'file',
+      'owner'   => 'root',
+      'group'   => 'root',
+      'mode'    => '0644',
+      'seluser' => 'system_u',
+      'seltype' => 'var_auth_t',
+    })}
   end
 
   context 'supported operating systems' do
@@ -23,42 +54,16 @@ describe 'oath' do
         context "oath class without any parameters" do
           let(:params) {{ }}
           it_behaves_like "a structured module"
-          it { is_expected.to contain_class('oath').with_trusted_nets(['127.0.0.1/32']) }
         end
 
-        context "oath class with firewall enabled" do
-          let(:params) {{
-            :enable_firewall => true
-          }}
-
-          ###it_behaves_like "a structured module"
-          it { is_expected.to contain_class('oath::config::firewall') }
-
-          it { is_expected.to contain_class('oath::config::firewall').that_comes_before('Class[oath::service]') }
-          it { is_expected.to create_iptables__listen__tcp_stateful('allow_oath_tcp_connections').with_dports(9999)
-          }
-        end
-
-        context "oath class with auditing enabled" do
-          let(:params) {{
-            :enable_auditing => true
-          }}
-
-          ###it_behaves_like "a structured module"
-          it { is_expected.to contain_class('oath::config::auditing') }
-          it { is_expected.to contain_class('oath::config::auditing').that_comes_before('Class[oath::service]') }
-          it { is_expected.to create_notify('FIXME: auditing') }
-        end
-
-        context "oath class with logging enabled" do
-          let(:params) {{
-            :enable_logging => true
-          }}
-
-          ###it_behaves_like "a structured module"
-          it { is_expected.to contain_class('oath::config::logging') }
-          it { is_expected.to contain_class('oath::config::logging').that_comes_before('Class[oath::service]') }
-          it { is_expected.to create_notify('FIXME: logging') }
+        context "oath class with oath enabled users undef" do
+          let(:params) do 
+            {
+            'oath' => true,
+            'oath_users' => :undef,
+            }
+          end
+          it_behaves_like "an oath-enabled module"
         end
       end
     end

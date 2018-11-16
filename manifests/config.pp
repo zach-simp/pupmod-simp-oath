@@ -10,16 +10,7 @@ class oath::config {
     owner   => 'root',
     group   => 'root',
     seluser => 'system_u',
-    seltype => 'var_auth_t'
-  }
-  concat { '/etc/liboath/users.oath':
-    owner          => 'root',
-    group          => 'root',
-    mode           => '0600',
-    ensure_newline => true,
-    warn           => true,
-    seluser        => 'system_u',
-    seltype        => 'var_auth_t'
+    seltype => 'var_auth_t',
   }
   file { '/etc/liboath/exclude_users.oath':
     ensure  => 'file',
@@ -28,7 +19,7 @@ class oath::config {
     mode    => '0644',
     seluser => 'system_u',
     seltype => 'var_auth_t',
-    source  => "puppet:///modules/${module_name}/etc/liboath/exclude_users.oath"
+    source  => "puppet:///modules/${module_name}/etc/liboath/exclude_users.oath",
   }
   file { '/etc/liboath/exclude_groups.oath':
     ensure  => 'file',
@@ -37,10 +28,19 @@ class oath::config {
     mode    => '0644',
     seluser => 'system_u',
     seltype => 'var_auth_t',
-    source  => "puppet:///modules/${module_name}/etc/liboath/exclude_groups.oath"
+    source  => "puppet:///modules/${module_name}/etc/liboath/exclude_groups.oath",
   }
 
   if $oath::oath_users {
+    concat { '/etc/liboath/users.oath':
+      owner          => 'root',
+      group          => 'root',
+      mode           => '0600',
+      ensure_newline => true,
+      warn           => true,
+      seluser        => 'system_u',
+      seltype        => 'var_auth_t',
+    }
     if $oath::oath_users['defaults'].is_a(Hash) {
       $defaults = $oath::oath_users['defaults']
       $raw_users = $oath::oath_users - 'defaults'
@@ -53,10 +53,10 @@ class oath::config {
 
     $raw_users.each |$some_user, $options| {
       if $options.is_a(Hash) {
-        $args = { 'users' => [$some_user] } + $options 
+        $args = { 'user' => [$some_user] } + $options
       }
       else {
-        $args = { 'users' => [$some_user] }
+        $args = { 'user' => [$some_user] }
       }
 
       oath::config::user {
@@ -64,5 +64,8 @@ class oath::config {
         "user_${some_user}": * => $args;
       }
     }
+  }
+  else {
+    warning('No users were specified for the /etc/liboath/users.oath config file! Puppet will not be managing this essential file!')
   }
 }
