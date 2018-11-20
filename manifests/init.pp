@@ -1,26 +1,25 @@
 # Full description of SIMP module 'oath' here.
+# This module is utilized by other modules in SIMP to download
+# TOTP required packages and configure them with sane defaults
+# as to make pam_oath.so a functional pam module if used.
 #
-# === Welcome to SIMP!
+# @param oath
+#   Whether or not to install pam_oath and liboath (if true)
+#   or just oathtool (a command-line utility for getting 
+#   a 2FA code from a corresponding secret key.
 #
-# This module is a component of the System Integrity Management Platform, a
-# managed security compliance framework built on Puppet.
+# @param pam
+#   Whether or not pam is configured on the simp system.
+#   Will not install pam_oath without pam being true
 #
-# ---
-# *FIXME:* verify that the following paragraph fits this module's characteristics!
-# ---
+# @param package_ensure
+#   Sets the value for resource => package, key => ensure. 
 #
-# This module is optimally designed for use within a larger SIMP ecosystem, but
-# it can be used independently:
-#
-# * When included within the SIMP ecosystem, security compliance settings will
-#   be managed from the Puppet server.
-#
-# * If used independently, all SIMP-managed security subsystems are disabled by
-#   default, and must be explicitly opted into by administrators.  Please
-#   review the +trusted_nets+ and +$enable_*+ parameters for details.
-#
-# @param package_name
-#   The name of the oath package
+# @param oath_users
+#   dict of users processed to create the users.oath file
+#   required by the pam_oath.so module. Defaults to hieradata
+#   in data/common.yaml. If this is deleted, or set to undef,
+#   puppet will not manage users.oath. 
 #
 # @author Zach
 #

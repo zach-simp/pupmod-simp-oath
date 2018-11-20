@@ -1,8 +1,8 @@
 define oath::config::user (
-  Array[String]                                                                         $user,
-  Array[Pattern[/^HOTP(\/?(T1[0-1][0-9]\/|T120\/|T[1-9][0-9]\/)?(10|[4-9])?)(\s+)?$/]]  $token_type,
-  Array[Variant[Enum['-','+'], Integer[0,99999999]]]                                    $pin,
-  Array[Pattern[/^(..)+(\s+)?$/]]                                                       $secret_key
+  Array[String]                                       $user,
+  Array[Pattern[/^HOTP(\/?(T\d+\/)?(\d+)?)(\s+)?$/]]  $token_type,
+  Array[Variant[Enum['-','+'], Integer[0,99999999]]]  $pin,
+  Array[Pattern[/^(..)+(\s+)?$/]]                     $secret_key
 ) {
   include '::oath::config'
   $_separator = '_'

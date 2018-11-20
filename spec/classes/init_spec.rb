@@ -65,6 +65,15 @@ describe 'oath' do
           end
           it_behaves_like "an oath-enabled module"
         end
+
+        context "oath class with oath enabled users undef" do
+          let(:params) do 
+            {
+            'oath' => true
+            }
+          end
+          it_behaves_like "an oath-enabled module"
+        end
       end
     end
   end
