@@ -6,6 +6,7 @@ group :test do
   gem 'rake'
   gem 'puppet', ENV.fetch('PUPPET_VERSION', '~>5.5')
   gem 'rspec'
+  gem 'json'
   gem 'rspec-puppet'
   gem 'puppet-strings'
   gem 'hiera-puppet-helper'

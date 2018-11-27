@@ -111,6 +111,9 @@ RSpec.configure do |c|
       set_environment(environment)
     end
 
+    Puppet::Util::Log.level = :debug
+    Puppet::Util::Log.newdestination(:console)
+
     if defined?(hieradata)
       set_hieradata(hieradata.gsub(':','_'))
     elsif defined?(class_name)

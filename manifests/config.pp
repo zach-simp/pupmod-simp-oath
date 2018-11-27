@@ -61,7 +61,7 @@ class oath::config {
 
       oath::config::user {
         default:  *            => $defaults;
-        "user_${some_user}": * => $args;
+        "${some_user}": * => $args;
       }
     }
   }
