@@ -67,8 +67,6 @@ describe 'oath' do
                 end
                 it { is_expected.to compile }
                 it {
-#require 'pry'
-#binding.pry
                 is_expected.to contain_concat_fragment("oath_user_#{user}").with_content(<<-EOM.gsub(/^\s+/,'')
                     #{token_type}\t#{user}\t1337\t#{user_key}\n
                   EOM
