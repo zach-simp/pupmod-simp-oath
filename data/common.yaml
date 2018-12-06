@@ -7,5 +7,3 @@ oath::oath_users:
     secret_key: '000001'
   simp:
     secret_key: '000001'
-  tst0_usr:
-    secret_key: '000001'

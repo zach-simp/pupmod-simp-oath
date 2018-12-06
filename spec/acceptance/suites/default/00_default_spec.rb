@@ -19,14 +19,9 @@ describe '<%= metadata.name %> class' do
       apply_manifest(manifest, :catch_changes => true)
     end
 
-
     describe package('<%= metadata.name %>') do
       it { is_expected.to be_installed }
     end
 
-    describe service('<%= metadata.name %>') do
-      it { is_expected.to be_enabled }
-      it { is_expected.to be_running }
-    end
   end
 end
