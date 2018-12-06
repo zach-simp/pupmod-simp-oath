@@ -9,7 +9,7 @@ describe 'oath' do
           os_facts
         end
 
-        context "Put stuff here" do
+        context "dont manage users file" do
           let(:params) do
             { 
               'oath_users' => :undef,
@@ -22,11 +22,11 @@ describe 'oath' do
         end
 
         good_pin  = ['"-"','"+"','1234','12345678'] 
-        good_user = ['root','s1_mp']
+        good_user = ['root','s1_mp-simP']
         good_type = ['HOTP','HOTP/T30','HOTP/T60','HOTP/T30/6','HOTP/T3022222/121212','HOTP/6']
         good_key  = ['1234','aasdf1234k']
         bad_pin   = ['a','""']
-        bad_user  = ['bad user']
+        bad_user  = ['bad user','b&d_user','bad>user']
         bad_type  = ['TOTP','HOTP/','HOTP/T','HOTP/T30/','']
         bad_key   = ['12345']
         good_pin.each { |pin|

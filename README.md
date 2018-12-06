@@ -87,7 +87,10 @@ overriden in puppet or hiera.
 ## Limitations
 
 Currently, while the pam_oath package supports HOTP as well as TOTP, this module
-only supports TOTP configuration. 
+only supports TOTP configuration. HOTP can be configured to work by setting
+`oath::oath_users` to undef, which will lead to `/etc/liboath/users.oath` no
+longer being managed by puppet. This keeps the last HOTP code from being
+overwritten, as pam_oath uses the config file to keep track of this data.
 
 SIMP Puppet modules are generally intended for use on Red Hat Enterprise Linux
 and compatible distributions, such as CentOS. Please see the

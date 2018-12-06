@@ -5,7 +5,7 @@ describe 'oath' do
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to create_class('oath') }
     it { is_expected.to contain_class('oath') }
-    it { is_expected.to contain_class('oath::install') }
+    it { is_expected.to contain_class('oath::oathtool_install') }
     it { is_expected.to contain_package('oathtool') }
   end
 
@@ -13,9 +13,9 @@ describe 'oath' do
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to create_class('oath') }
     it { is_expected.to contain_class('oath') }
-    it { is_expected.to contain_class('oath::install') }
+    it { is_expected.to contain_class('oath::oathtool_install') }
     it { is_expected.to contain_package('oathtool') }
-    it { is_expected.to contain_class('oath::pam_oath_install').that_comes_before('Class[oath::config]') }
+    it { is_expected.to contain_class('oath::install').that_comes_before('Class[oath::config]') }
     it { is_expected.to contain_class('oath::config') }
     it { is_expected.to contain_package('liboath') }
     it { is_expected.to contain_package('pam_oath') }
