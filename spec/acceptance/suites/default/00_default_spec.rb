@@ -1,11 +1,11 @@
 require 'spec_helper_acceptance'
 
-test_name '<%= metadata.name %> class'
+test_name 'oath class'
 
-describe '<%= metadata.name %> class' do
+describe 'oath class' do
   let(:manifest) {
     <<-EOS
-      class { '<%= metadata.name %>': }
+      class { 'oath': }
     EOS
   }
 
@@ -19,7 +19,7 @@ describe '<%= metadata.name %> class' do
       apply_manifest(manifest, :catch_changes => true)
     end
 
-    describe package('<%= metadata.name %>') do
+    describe package('oathtool') do
       it { is_expected.to be_installed }
     end
 
